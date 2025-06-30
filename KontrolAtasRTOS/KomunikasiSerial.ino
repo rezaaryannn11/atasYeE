@@ -56,22 +56,3 @@ void komunikasiSerial(char gerak){
       break;
   }
 }
-
-void taskKomunikasiSerial(void *pvParameters) {
-  for (;;) {
-    if (Serial.available()) {
-      char cmd = Serial.read();
-
-      // Kirim ke pin K1–K5
-      komunikasiSerial(cmd);
-
-      // (Opsional) Kirim juga ke ESP-NOW
-      // komunikasiESPNOW(cmd);
-
-      Serial.printf("[SERIAL] CMD: %c\n", cmd);
-    }
-
-    // Delay wajib untuk mencegah watchdog reset
-    vTaskDelay(pdMS_TO_TICKS(100)); 
-  }
-}

@@ -112,8 +112,8 @@ void setup() {
   // setupHuskylens();
   setupESPNOW();
   // setupOLED();
-  // setupKomunikasiSerial();
-  // setPinOutput(0, 0, 0, 0, 0);
+  setupKomunikasiSerial();
+  setPinOutput(0, 0, 0, 0, 0);
 
   // Buat RTOS task dan pin ke core aplikasi (1)
   xTaskCreatePinnedToCore(taskURM09,  "URM09",  2048, NULL, 1, NULL, APP_CPU_NUM);
@@ -126,7 +126,20 @@ void setup() {
 
 }
 
-
 void loop() {
+  if (!rintangan_[1]) {
+      if (distance_URM09_1 <= 5) {
+        komunikasiSerial('S');
+        Serial.println("[KEPUTUSAN] Kirim perintah: B (Obstacle dekat)");
+        rintangan_[1] = true;
+      }
+    }
 
+    if (!rintangan_[2]) {
+      if (distance_URM09_1 >= 30) {
+        komunikasiSerial('a');
+        Serial.println("[KEPUTUSAN] Kirim perintah: C (Obstacle jauh)");
+        rintangan_[2] = true;
+      }
+    }
 }
